@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 09:51:52 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/20 16:52:32 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/21 15:10:30 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,16 @@ void	env_add_back(t_env **env, t_env *new)
 {
 	t_env	*tmp;
 
+	if (*env == NULL)
+	{
+		*env = new;
+		new->next = NULL;
+		return ;
+	}
 	tmp = env_last(*env);
 	tmp->next = new;
 	new->prev = tmp;
 	new->next = NULL;
-}
-
-void	print_env(t_env *env)
-{
-	while (env)
-	{
-		printf("%s=%s\n", env->key, env->value);
-		env = env->next;
-	}
 }
 
 void	env_change_value(t_env **env, char *key, char *value)
@@ -53,13 +50,22 @@ void	env_change_value(t_env **env, char *key, char *value)
 	while (tmp)
 	{
 		if (ft_strcmp(key, tmp->key) == 0)
-			break ;
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup(value);
+			free(value);
+			return ;
+		}
 		tmp = tmp->next;
 	}
-	if (tmp != NULL)
+	if (tmp == NULL)
 	{
-		free(tmp->value);
+		tmp = (t_env *)malloc(sizeof(t_env));
+		if (tmp == NULL)
+			exit_error("env_util.c : line 68: ");
+		tmp->key = ft_strdup(key);
 		tmp->value = ft_strdup(value);
+		env_add_back(env, tmp);
 		free(value);
 	}
 }

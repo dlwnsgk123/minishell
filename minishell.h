@@ -59,7 +59,6 @@ char	*skip_quote(char *input);
 int		check_input(char *input);
 int		check_empty(char *input);
 
-
 /*---------------------------- parse ------------------------------*/
 
 void	parse_pipe(char *input, t_list **cmds);
@@ -95,3 +94,7 @@ void	sig_endl(int signum);
 
 int		ft_echo(char **argv);
 int		ft_cd(char **argv, t_env **env);
+int		ft_pwd(void);
+int		ft_env(t_env **env);
+
+void	exit_error(char	*str);

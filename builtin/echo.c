@@ -6,13 +6,13 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 12:19:39 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/20 12:52:42 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/21 02:29:56 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_option(char *str)
+static int	check_option(char *str)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 #    By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 07:21:51 by junhalee          #+#    #+#              #
-#    Updated: 2022/01/20 13:13:40 by junhalee         ###   ########.fr        #
+#    Updated: 2022/01/21 14:55:03 by junhalee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,13 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = #-fsanitize=address
+CFLAGS = -fsanitize=address
 
 SRCS = main.c \
 	env/env.c \
 	env/env_util.c \
 	check.c \
+	error.c \
 	parse/parse.c \
 	parse/parse_pipe.c \
 	parse/parse_redirection.c \
@@ -31,6 +32,9 @@ SRCS = main.c \
 	echoctl.c \
 	builtin/echo.c \
 	builtin/cd.c \
+	builtin/pwd.c \
+	builtin/env.c \
+	builtin/export.c \
 
 
 INCLUDE	= 

@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 09:50:28 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/20 16:57:09 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/21 12:34:06 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	env_setting(t_env **env, char **envp)
 {
 	int 	i;
 
-	*env = ft_envnew("?=0");
 	i = 0;
 	while (envp[i] != NULL)
 	{

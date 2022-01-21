@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:26:20 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/20 18:08:12 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/21 12:28:28 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,17 @@ int		is_builtin(char *str)
 
 int	exec_builtin(t_cmd	*cmd, t_env **env)
 {
-	if (is_builtin(cmd->argv[0]) == BUILTIN_ECHO)
+	int	builtin;
+
+	builtin = is_builtin(cmd->argv[0]);
+	if (builtin == BUILTIN_ECHO)
 		return (ft_echo(cmd->argv));
-//	if (is_builtin(cmd->argv[0]) == BUILTIN_CD)
-//		return (ft_cd(cmd->argv, env));
+	if (builtin == BUILTIN_CD)
+		return (ft_cd(cmd->argv, env));
+	if (builtin == BUILTIN_PWD)
+		return (ft_pwd());
+	if (builtin == BUILTIN_ENV)
+		return (ft_env(env));
 	
 }
 
