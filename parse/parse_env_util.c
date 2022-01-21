@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 10:09:51 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/21 19:48:49 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/22 02:40:51 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,13 @@ char	*get_middle(char *str, t_env *env)
 	char	*value;
 
 	key = get_key(str);
-	if (*key == '\0')
+	if (*key == '\0' && *(str + 1) == ' ' || 
+		*(str + 1) == '\0' || *(str + 1) == '\"')
 	{
 		free(key);
 		return (ft_strdup("$"));
 	}
-	else if (*key == '?')
+	if (*key == '?')
 	{
 		free(key);
 		return (ft_itoa(g_status));

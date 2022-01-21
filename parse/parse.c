@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 12:32:46 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/21 18:18:30 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/22 02:42:26 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*delete_quote(char	*str)
 	char	*start_str;
 	char	*rtn;
 
-	rtn = (char *)malloc(ft_strlen(str) + 5);
+	rtn = (char *)malloc(ft_strlen(str) + 1);
 	if (rtn == NULL)
 		return (NULL);
 	start_rtn = rtn;
