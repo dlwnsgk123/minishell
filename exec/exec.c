@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:26:20 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/21 12:28:28 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/21 16:22:29 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	exec_builtin(t_cmd	*cmd, t_env **env)
 		return (ft_pwd());
 	if (builtin == BUILTIN_ENV)
 		return (ft_env(env));
+	if (builtin == BUILTIN_EXPORT)
+		return (ft_export(cmd->argv, env));
 	
 }
 

@@ -40,7 +40,7 @@ typedef struct s_rdi
 
 typedef struct s_cmd
 {
-	int				fd[2];
+	char			*tmp;
 	char			**argv;
 	t_list			*redirect;
 }				t_cmd;
@@ -53,6 +53,7 @@ void	print_env(t_env *env);
 void	env_add_back(t_env **env, t_env *new);
 char	*env_get_value(t_env **env, char *key);
 void	env_change_value(t_env **env, char *key, char *value);
+t_env	*ft_envnew(char *envp);
 
 
 char	*skip_quote(char *input);
@@ -96,5 +97,6 @@ int		ft_echo(char **argv);
 int		ft_cd(char **argv, t_env **env);
 int		ft_pwd(void);
 int		ft_env(t_env **env);
+int		ft_export(char **argv, t_env **env);
 
 void	exit_error(char	*str);

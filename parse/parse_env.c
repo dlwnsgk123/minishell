@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 09:59:46 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/16 10:15:01 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/21 16:44:55 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void	*parse_env(t_list *cmds, t_env *env)
 				rdi_lst = rdi_lst->next;
 			}
 		}
-		i = -1;
-		while (cmd->argv[++i])
-			cmd->argv[i] = parse_env_start(cmd->argv[i], env, false);
+		cmd->tmp = parse_env_start(cmd->tmp, env, false);
+		cmd->argv = ft_split(cmd->tmp, ' ');
+		free(cmd->tmp);
 		tmp = tmp->next;
 	}
 }
