@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 10:41:29 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/21 16:41:17 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/21 17:23:17 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_cmd	*get_cmd(char *content)
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	tmp = (char *)malloc(sizeof(char) * (ft_strlen(content) + 1));
 	tmp_start = tmp;
-	cmd->tmp = NULL;
+	cmd->argv = NULL;
 	cmd->redirect = NULL;
 	while (*content != '\0')
 	{
@@ -100,7 +100,8 @@ t_cmd	*get_cmd(char *content)
 			*tmp++ = *content++;
 	}
 	*tmp = '\0';
-	cmd->tmp = tmp_start;
+	cmd->argv = ft_split(tmp_start, ' ');
+	free(tmp_start);
 	return (cmd);
 }
 
