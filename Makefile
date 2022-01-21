@@ -6,7 +6,7 @@
 #    By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 07:21:51 by junhalee          #+#    #+#              #
-#    Updated: 2022/01/21 18:21:41 by junhalee         ###   ########.fr        #
+#    Updated: 2022/01/21 19:47:07 by junhalee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = -fsanitize=address
+CFLAGS = #-fsanitize=address
 
 SRCS = main.c \
 	env/env.c \

@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 10:09:51 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/21 18:21:19 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/21 19:48:49 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,15 @@ char	*get_middle(char *str, t_env *env)
 
 	key = get_key(str);
 	if (*key == '\0')
+	{
+		free(key);
 		return (ft_strdup("$"));
+	}
 	else if (*key == '?')
+	{
+		free(key);
 		return (ft_itoa(g_status));
+	}
 	while (env)
 	{
 		if (ft_strcmp(key, env->key) == 0)
