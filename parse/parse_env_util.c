@@ -6,11 +6,20 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 10:09:51 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/19 11:41:03 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/21 18:21:19 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	is_end(char c)
+{
+	if (c == '\'' || c== '\"' || c == '<' || c == '>' 
+		|| c == '|' || c == '$' || c == -10 || c == ' ')
+		return (1);
+	else
+		return (0);
+}
 
 char	*get_key(char *str)
 {
@@ -23,7 +32,7 @@ char	*get_key(char *str)
 		key = ft_strdup("$");
 	else
 	{
-		while (*str && !ft_strrchr("\"\'<>|$ ", *(str)))
+		while (*str && !is_end(*str))
 			str++;
 		key = ft_strndup(start + 1, str - start - 1);
 	}
@@ -56,10 +65,10 @@ char	*get_middle(char *str, t_env *env)
 
 char	*get_last(char *str)
 {
-	if (*str && ft_strchr("$?", *str))
+	if (*str != '\0' && ft_strchr("$?", *str))
 		str++;
 	else
-		while (*str && !ft_strrchr("\"\'<>|$ ", *(str)))
+		while (*str != '\0' && !is_end(*str))
 			str++;
 	return (ft_strdup(str));
 }

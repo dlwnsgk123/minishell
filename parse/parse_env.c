@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 09:59:46 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/21 17:23:18 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/21 18:44:54 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*parse_env_start(char *str, t_env *env, bool in_dquote)
 	char	*start;
 
 	start = str;
-	while (*str)
+	while (*str != '\0')
 	{
 		if (*str == '\"')
 			in_dquote = !in_dquote;
@@ -75,8 +75,11 @@ void	*parse_env(t_list *cmds, t_env *env)
 			}
 		}
 		i = -1;
-		while (cmd->argv[++i])
-			cmd->argv[i] = parse_env_start(cmd->argv[i], env, false);
+//		while (cmd->argv[++i])
+//			cmd->argv[i] = parse_env_start(cmd->argv[i], env, false);
+		cmd->tmp = parse_env_start(cmd->tmp, env, false);
+		cmd->argv = ft_split(cmd->tmp, ' ');
+		free(cmd->tmp);
 		tmp = tmp->next;
 	}
 }
