@@ -61,15 +61,11 @@ void	env_change_value(t_env **env, char *key, char *value);
 void	env_delete_node(char *key, t_env **env);
 t_env	*ft_envnew(char *envp);
 
-/*-----------------------------------------------------------------*/
-
 /*---------------------------- util -------------------------------*/
 
 char	*skip_quote(char *input);
 int		check_input(char *input);
 int		check_empty(char *input);
-
-/*-----------------------------------------------------------------*/
 
 /*---------------------------- parse ------------------------------*/
 
