@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:26:20 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 09:36:35 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 12:58:56 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,17 +177,16 @@ void	child_execute(t_list *tmp, t_env **env, int fd[2], int fd_in)
 	if (tmp->next != NULL)
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
-	if (execvp(cmd->argv[0], cmd->argv) < 0)
-		err_command_not_found(cmd->argv[0]);
+	process_binary(cmd, env);
 }
 
 void	pipe_execute(t_list *cmds, t_env **env)
 {
-	int	fd[2];
-	pid_t	pid;
+	int		fd[2];
 	t_list	*tmp;
+	int		pid;
 	t_cmd	*cmd;
-	int	fd_in;
+	int		fd_in;
 
 	tmp = cmds;
 	fd_in = 0;

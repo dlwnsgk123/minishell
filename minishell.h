@@ -53,6 +53,7 @@ void	print_env(t_env *env);
 void	env_add_back(t_env **env, t_env *new);
 char	*env_get_value(t_env **env, char *key);
 void	env_change_value(t_env **env, char *key, char *value);
+void	env_delete_node(char *key, t_env **env);
 t_env	*ft_envnew(char *envp);
 
 
