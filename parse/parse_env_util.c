@@ -6,15 +6,21 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 10:09:51 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/22 02:40:51 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 13:29:49 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+static char	*free_return(char *str, char *key)
+{
+	free(key);
+	return (ft_strdup(str));
+}
+
 int	is_end(char c)
 {
-	if (c == '\'' || c== '\"' || c == '<' || c == '>' 
+	if (c == '\'' || c == '\"' || c == '<' || c == '>'
 		|| c == '|' || c == '$' || c == -10 || c == ' ')
 		return (1);
 	else
@@ -46,12 +52,9 @@ char	*get_middle(char *str, t_env *env)
 	char	*value;
 
 	key = get_key(str);
-	if (*key == '\0' && *(str + 1) == ' ' || 
-		*(str + 1) == '\0' || *(str + 1) == '\"')
-	{
-		free(key);
-		return (ft_strdup("$"));
-	}
+	if (*key == '\0' && *(str + 1) == ' '
+		|| *(str + 1) == '\0' || *(str + 1) == '\"')
+		return (free_return("$", key));
 	if (*key == '?')
 	{
 		free(key);
@@ -60,14 +63,10 @@ char	*get_middle(char *str, t_env *env)
 	while (env)
 	{
 		if (ft_strcmp(key, env->key) == 0)
-		{
-			free(key);
-			return (ft_strdup(env->value));
-		}
+			return (free_return(env->value, key));
 		env = env->next;
 	}
-	free(key);
-	return (ft_strdup(""));
+	return (free_return("", key));
 }
 
 char	*get_last(char *str)

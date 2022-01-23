@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:26:20 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 12:58:56 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 13:18:06 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,9 +173,11 @@ void	child_execute(t_list *tmp, t_env **env, int fd[2], int fd_in)
 	t_cmd	*cmd;
 
 	cmd = tmp->content;
-	dup2(fd_in, STDIN_FILENO);
+	if (dup2(fd_in, STDIN_FILENO))
+		exit_error("dup2 error line 177: ");
 	if (tmp->next != NULL)
-		dup2(fd[1], STDOUT_FILENO);
+		if (dup2(fd[1], STDOUT_FILENO))
+			exit_error("dup2 error  line 180: ");
 	close(fd[0]);
 	process_binary(cmd, env);
 }

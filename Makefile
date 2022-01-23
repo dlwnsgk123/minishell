@@ -6,7 +6,7 @@
 #    By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 07:21:51 by junhalee          #+#    #+#              #
-#    Updated: 2022/01/23 10:02:02 by junhalee         ###   ########.fr        #
+#    Updated: 2022/01/23 13:44:08 by junhalee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS = main.c \
 	parse/parse.c \
 	parse/parse_pipe.c \
 	parse/parse_redirection.c \
+	parse/parse_redirection_util.c \
 	parse/parse_env.c \
 	parse/parse_env_util.c \
 	redirection/redirection.c \

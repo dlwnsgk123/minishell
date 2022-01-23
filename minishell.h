@@ -66,6 +66,8 @@ int		check_empty(char *input);
 void	parse_pipe(char *input, t_list **cmds);
 void	parse(char *input, t_list **cmds, t_env *env);
 void	parse_redirection(t_list **cmds);
+t_rdi	*make_rdi(char *content);
+char	*skip_target(char *content);
 char	*parse_env_start(char *str, t_env *env, bool in_dquote);
 void	*parse_env(t_list *cmds, t_env *env);
 char	*delete_quote(char	*str);
