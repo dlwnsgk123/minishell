@@ -6,13 +6,13 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 01:39:34 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 04:33:18 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 14:05:19 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_status;
+int	g_status;
 
 int	take_input(char **input)
 {
