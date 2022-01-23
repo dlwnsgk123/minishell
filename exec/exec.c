@@ -6,11 +6,31 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:26:20 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/21 16:22:29 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 09:36:35 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+/*
+int	ft_execve(t_cmd *cmd, t_env **env)
+{
+	//int execvp(char *file, char *argv[]);
+	//int execve(char *path, char *argv[], char *envp[]);
+	struct stat	sb;
+	char	**path;
+
+	path = ft_strjoin("/usr/bin/", cmd->argv[0]);
+	if (stat(path, &sb) == -1)
+		return (-1);
+	else
+	{
+		if (execve(path, cmd->argv, 0) < 0)
+			return (-1);
+	}
+	return (0);
+}
+*/
 
 void	err_command_not_found(char *target)
 {
@@ -56,7 +76,10 @@ int	exec_builtin(t_cmd	*cmd, t_env **env)
 		return (ft_env(env));
 	if (builtin == BUILTIN_EXPORT)
 		return (ft_export(cmd->argv, env));
-	
+	if (builtin == BUILTIN_EXIT)
+		return (ft_exit(cmd->argv));
+	if (builtin == BUILTIN_UNSET)
+		return (ft_unset(cmd->argv, env));
 }
 
 void	process_builtin(t_cmd *cmd, t_env **env, bool pipe)
@@ -145,11 +168,44 @@ void	execute(t_list *cmds, t_env **env)
 	}
 }
 
+void	child_execute(t_list *tmp, t_env **env, int fd[2], int fd_in)
+{
+	t_cmd	*cmd;
+
+	cmd = tmp->content;
+	dup2(fd_in, STDIN_FILENO);
+	if (tmp->next != NULL)
+		dup2(fd[1], STDOUT_FILENO);
+	close(fd[0]);
+	if (execvp(cmd->argv[0], cmd->argv) < 0)
+		err_command_not_found(cmd->argv[0]);
+}
+
 void	pipe_execute(t_list *cmds, t_env **env)
 {
-	int 	fd[2];
+	int	fd[2];
 	pid_t	pid;
-	int 	fdd;
+	t_list	*tmp;
+	t_cmd	*cmd;
+	int	fd_in;
 
-	return ;
+	tmp = cmds;
+	fd_in = 0;
+	while (tmp != NULL)
+	{
+		if (pipe(fd) < 0)
+			exit_error("pipe error : ");
+		pid = fork();
+		if (pid < 0)
+			return ;
+		else if (pid == 0)
+			child_execute(tmp, env, fd, fd_in);
+		else
+		{
+			wait(NULL);
+			close(fd[1]);
+			fd_in = fd[0];
+			tmp = tmp->next;
+		}
+	}
 }

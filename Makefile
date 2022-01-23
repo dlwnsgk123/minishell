@@ -6,7 +6,7 @@
 #    By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 07:21:51 by junhalee          #+#    #+#              #
-#    Updated: 2022/01/21 19:47:07 by junhalee         ###   ########.fr        #
+#    Updated: 2022/01/23 10:02:02 by junhalee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,8 @@ SRCS = main.c \
 	builtin/pwd.c \
 	builtin/env.c \
 	builtin/export.c \
+	builtin/exit.c \
+	builtin/unset.c \
 
 
 INCLUDE	= 

@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 10:41:29 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/21 18:43:35 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/22 12:36:49 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ t_cmd	*get_cmd(char *content)
 			*tmp++ = *content++;
 	}
 	*tmp = '\0';
-	//cmd->argv = ft_split(tmp_start, ' ');
-	//free(tmp_start);
 	cmd->tmp = tmp_start;
 	return (cmd);
 }

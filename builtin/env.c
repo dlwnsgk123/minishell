@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 12:26:22 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/21 15:12:36 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/22 08:34:14 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	print_env(t_env *env)
 {
 	while (env)
 	{
-		if (env->value != NULL)
+		if (env->value && env->value[0] != '\0')
 			printf("%s=%s\n", env->key, env->value);
 		env = env->next;
 	}
