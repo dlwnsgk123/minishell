@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 11:07:37 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 09:35:02 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 12:46:52 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	*get_export_value(char *str)
 
 static int	print_export(t_env **env)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = *env;
 	while (tmp)
@@ -54,8 +54,8 @@ static int	print_export(t_env **env)
 
 int	ft_export(char **argv, t_env **env)
 {
-	char *key;
-	char *value;
+	char	*key;
+	char	*value;
 
 	if (argv[1] == NULL)
 		return (print_export(env));

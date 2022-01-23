@@ -6,32 +6,11 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 04:25:42 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 10:02:37 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 12:47:13 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	env_delete_node(char *key, t_env **env)
-{
-	t_env	*tmp;
-
-	tmp = *env;
-	while (tmp)
-	{
-		if (ft_strcmp(key, tmp->key) == 0)
-		{
-			tmp->prev->next = tmp->next;
-			if (tmp->next != NULL)
-				tmp->next->prev = tmp->prev;
-			free(tmp->key);
-			free(tmp->value);
-			free(tmp);
-			return ;		
-		}
-		tmp = tmp->next;
-	}
-}
 
 int	ft_unset(char **argv, t_env **env)
 {

@@ -6,13 +6,13 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:01:56 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/21 14:56:02 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 12:45:46 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		get_argc(char **argv)
+int	get_argc(char **argv)
 {
 	int		argc;
 

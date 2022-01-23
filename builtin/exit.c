@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 11:23:57 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 04:25:34 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 12:46:35 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	check_digit(char *str)
 {
 	int	i;
-	
+
 	i = 0;
 	while (str[i])
 	{

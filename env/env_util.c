@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 09:51:52 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/21 15:10:30 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 12:49:09 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,30 @@ void	env_add_back(t_env **env, t_env *new)
 	new->next = NULL;
 }
 
+void	env_delete_node(char *key, t_env **env)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	while (tmp)
+	{
+		if (ft_strcmp(key, tmp->key) == 0)
+		{
+			tmp->prev->next = tmp->next;
+			if (tmp->next != NULL)
+				tmp->next->prev = tmp->prev;
+			free(tmp->key);
+			free(tmp->value);
+			free(tmp);
+			return ;
+		}
+		tmp = tmp->next;
+	}
+}
+
 void	env_change_value(t_env **env, char *key, char *value)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = *env;
 	while (tmp)
@@ -72,7 +93,7 @@ void	env_change_value(t_env **env, char *key, char *value)
 
 char	*env_get_value(t_env **env, char *key)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = *env;
 	while (tmp)
