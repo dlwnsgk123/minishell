@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 01:39:34 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 17:00:08 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 20:42:29 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	free_content(void **content)
 void	cmd_clear(t_list **cmd)
 {
 	t_list	*tmp;
-	t_list	*start;
 
 	while (*cmd)
 	{
@@ -83,6 +82,7 @@ void	cmd_clear(t_list **cmd)
 
 void	sigint_newline(int	signum)
 {
+	(void)signum;
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
 //	rl_replace_line("", 1);
@@ -99,6 +99,8 @@ int	main(int argc, char *argv[], char *envp[])
 	input = NULL;
 	cmds = NULL;
 	env = NULL;
+	(void)argv;
+	(void)argc;
 	env_setting(&env, envp);
 	while (1)
 	{

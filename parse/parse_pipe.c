@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 10:42:41 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/16 10:15:50 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 17:07:44 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	parse_pipe(char *input, t_list **cmds)
 {
-	int		i;
-	int		pipe;
 	char	*start;
 
 	start = input;

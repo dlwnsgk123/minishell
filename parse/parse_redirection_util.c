@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 13:42:21 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 16:24:53 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 17:08:04 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ char	*skip_target(char *content)
 t_rdi	*make_rdi(char *content)
 {
 	t_rdi	*rdi;
-	char	*str;
 
 	rdi = (t_rdi *)malloc(sizeof(t_rdi));
 	if (rdi == NULL)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_env_util.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 10:09:51 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 13:29:49 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 17:09:17 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,11 @@ char	*get_key(char *str)
 
 char	*get_middle(char *str, t_env *env)
 {
-	char	*start;
 	char	*key;
-	char	*value;
 
 	key = get_key(str);
-	if (*key == '\0' && *(str + 1) == ' '
-		|| *(str + 1) == '\0' || *(str + 1) == '\"')
+	if (*key == '\0' && (*(str + 1) == ' '
+		|| *(str + 1) == '\0' || *(str + 1) == '\"'))
 		return (free_return("$", key));
 	if (*key == '?')
 	{

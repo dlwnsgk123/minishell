@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:26:20 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 17:04:57 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 21:13:46 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void	process_builtin(t_cmd *cmd, t_env **env, bool pipe)
 
 void	process_binary(t_cmd *cmd, t_env **env)
 {
+	(void)env;
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (cmd->redirect != NULL)
@@ -174,11 +175,11 @@ void	child_execute(t_list *tmp, t_env **env, int fd[2], int fd_in)
 	t_cmd	*cmd;
 
 	cmd = tmp->content;
-	if (dup2(fd_in, STDIN_FILENO))
+	if (dup2(fd_in, STDIN_FILENO) < 0)
 		exit_error("dup2 error line 177: ");
 	if (tmp->next != NULL)
 	{
-		if (dup2(fd[1], STDOUT_FILENO))
+		if (dup2(fd[1], STDOUT_FILENO) < 0)
 			exit_error("dup2 error  line 180: ");
 	}
 	close(fd[0]);
@@ -190,15 +191,15 @@ void	pipe_execute(t_list *cmds, t_env **env)
 	int		fd[2];
 	t_list	*tmp;
 	int		pid;
-	t_cmd	*cmd;
 	int		fd_in;
+	int		i;
 
 	tmp = cmds;
 	fd_in = 0;
 	while (tmp != NULL)
 	{
 		if (pipe(fd) < 0)
-			exit_error("pipe error : ");
+            exit_error("pipe error : ");
 		pid = fork();
 		if (pid < 0)
 			return ;
@@ -206,9 +207,11 @@ void	pipe_execute(t_list *cmds, t_env **env)
 			child_execute(tmp, env, fd, fd_in);
 		else
 		{
-			wait(NULL);
 			close(fd[1]);
-			fd_in = fd[0];
+			fd_in = 200;
+			if (dup2(fd[0], fd_in) < 0)
+				exit_error("dup error :");
+			close(fd[0]);
 			tmp = tmp->next;
 		}
 	}

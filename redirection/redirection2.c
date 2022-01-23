@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:25:13 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 14:06:11 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 17:09:59 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	rdr_double_left(char *target)
 {
 	int	fd;
 	
+	(void)target;
 	fd = open(".heredoc", O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU | S_IRWXO);
 	dup2(fd, STDIN_FILENO);
 	close(fd);

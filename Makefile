@@ -6,7 +6,7 @@
 #    By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 07:21:51 by junhalee          #+#    #+#              #
-#    Updated: 2022/01/23 16:30:26 by junhalee         ###   ########.fr        #
+#    Updated: 2022/01/23 21:05:54 by junhalee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = #-fsanitize=address
+CFLAGS = #-Wextra -Werror -Wall #-fsanitize=address
 
 SRCS = main.c \
 	env/env.c \
@@ -37,8 +37,7 @@ SRCS = main.c \
 	builtin/env.c \
 	builtin/export.c \
 	builtin/exit.c \
-	builtin/unset.c \
-
+	builtin/unset.c 
 
 INCLUDE	= 
 
@@ -46,7 +45,7 @@ OBJS = $(SRCS:.c=.o)
 
 $(NAME) : $(OBJS)
 		$(MAKE) -s -C ./Libft all
-		$(CC) $(CFLAGS) $(OBJS) -L ./Libft -lft -o $(NAME) -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
+		$(CC) $(CFLAGS) $(OBJS) -L ./Libft -lft -o $(NAME) -lreadline
 
 all : $(NAME)
 
