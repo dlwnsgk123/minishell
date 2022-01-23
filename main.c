@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 01:39:34 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 20:42:29 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 21:48:34 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	sigint_newline(int	signum)
 	(void)signum;
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
-//	rl_replace_line("", 1);
+	rl_replace_line("", 1);
 	rl_redisplay();
 	g_status = 130;
 }
