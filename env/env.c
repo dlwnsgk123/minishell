@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 09:50:28 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 12:48:16 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 16:17:03 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*get_env_value(char *envp)
 {
 	char	*tmp;
 
-	tmp = strchr(envp, '=');
+	tmp = ft_strchr(envp, '=');
 	return (ft_strdup(tmp + 1));
 }
 

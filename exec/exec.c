@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:26:20 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 13:18:06 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 17:04:57 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	exec_builtin(t_cmd	*cmd, t_env **env)
 		return (ft_exit(cmd->argv));
 	if (builtin == BUILTIN_UNSET)
 		return (ft_unset(cmd->argv, env));
+	return (0);
 }
 
 void	process_builtin(t_cmd *cmd, t_env **env, bool pipe)
@@ -176,8 +177,10 @@ void	child_execute(t_list *tmp, t_env **env, int fd[2], int fd_in)
 	if (dup2(fd_in, STDIN_FILENO))
 		exit_error("dup2 error line 177: ");
 	if (tmp->next != NULL)
+	{
 		if (dup2(fd[1], STDOUT_FILENO))
 			exit_error("dup2 error  line 180: ");
+	}
 	close(fd[0]);
 	process_binary(cmd, env);
 }

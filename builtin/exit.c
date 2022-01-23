@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 11:23:57 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 12:46:35 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 16:49:20 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ static int	check_digit(char *str)
 int	ft_exit(char **argv)
 {
 	if (*(argv + 1) == NULL)
+	{
+		ft_putstr_fd("exit\n", 2);
 		exit(0);
+	}
 	if (check_digit(argv[1]) == 0)
 	{
 		ft_putstr_fd("exit: ", 2);
@@ -42,5 +45,6 @@ int	ft_exit(char **argv)
 		ft_putstr_fd("exit\nexit: too many arguments\n", 2);
 		exit(1);
 	}
+	ft_putstr_fd("exit\n", 2);
 	exit(ft_atoi(argv[1]));
 }

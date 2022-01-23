@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 09:59:46 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 13:23:19 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 16:25:19 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*parse_env_start(char *str, t_env *env, bool in_dquote)
 	return (delete_quote(start));
 }
 
-void	*parse_env(t_list *cmds, t_env *env)
+void	parse_env(t_list *cmds, t_env *env)
 {
 	t_list	*tmp;
 	t_cmd	*cmd;

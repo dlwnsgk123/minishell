@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+         #
+#    By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 07:21:51 by junhalee          #+#    #+#              #
-#    Updated: 2022/01/23 13:44:08 by junhalee         ###   ########.fr        #
+#    Updated: 2022/01/23 16:30:26 by junhalee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ OBJS = $(SRCS:.c=.o)
 
 $(NAME) : $(OBJS)
 		$(MAKE) -s -C ./Libft all
-		$(CC) $(CFLAGS) $(OBJS) -L ./Libft -lft -lreadline -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJS) -L ./Libft -lft -o $(NAME) -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 
 all : $(NAME)
 

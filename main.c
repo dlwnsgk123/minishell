@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 01:39:34 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 14:05:19 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 17:00:08 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	take_input(char **input)
 	if (*input != NULL)
 		free(*input);
 	*input = readline("minishell$ ");
-	if (!(*input))
+	if ((*input) == NULL)
 	{
 		ft_putstr_fd("exit\n", 1);
 		exit(0);
@@ -85,7 +85,7 @@ void	sigint_newline(int	signum)
 {
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 1);
+//	rl_replace_line("", 1);
 	rl_redisplay();
 	g_status = 130;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirection_util.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 13:42:21 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 13:43:13 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 16:24:53 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	get_rdi_type(char *str)
 		return (L_RDR);
 	if (*str == '<' && *(str + 1) == '<')
 		return (LL_RDR);
+	return (0);
 }
 
 char	*get_rdi_target(char *str)

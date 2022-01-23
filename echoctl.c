@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echoctl.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 08:57:17 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 14:04:43 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/23 16:42:18 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ void	echoctl_on(void)
 		attr.c_lflag = attr.c_lflag | ECHOCTL;
 		tcsetattr(STDERR_FILENO, TCSANOW, &attr);
 	}
+	else if (isatty(STDIN_FILENO))
+	{
+		tcgetattr(STDIN_FILENO, &attr);
+		attr.c_lflag = attr.c_lflag | ECHOCTL;
+		tcsetattr(STDIN_FILENO, TCSANOW, &attr);
+	}
 }
 
 void	echoctl_off(void)
@@ -45,5 +51,11 @@ void	echoctl_off(void)
 		tcgetattr(STDERR_FILENO, &attr);
 		attr.c_lflag = attr.c_lflag & ~ECHOCTL;
 		tcsetattr(STDERR_FILENO, TCSANOW, &attr);
+	}
+	else if (isatty(STDIN_FILENO))
+	{
+		tcgetattr(STDIN_FILENO, &attr);
+		attr.c_lflag = attr.c_lflag | ~ECHOCTL;
+		tcsetattr(STDIN_FILENO, TCSANOW, &attr);
 	}
 }

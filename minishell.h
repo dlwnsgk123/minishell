@@ -4,6 +4,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <string.h>
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -15,10 +16,10 @@
 # include <readline/history.h>
 # include <stdbool.h>
 
-# define R_RDR			1
-# define RR_RDR			2
-# define L_RDR			3
-# define LL_RDR			4
+# define 	R_RDR			1
+# define 	RR_RDR			2
+# define 	L_RDR			3
+# define 	LL_RDR			4
 # define	BUILTIN_ECHO	1
 # define	BUILTIN_CD		2
 # define	BUILTIN_EXPORT	3
@@ -75,7 +76,7 @@ void	parse_redirection(t_list **cmds);
 t_rdi	*make_rdi(char *content);
 char	*skip_target(char *content);
 char	*parse_env_start(char *str, t_env *env, bool in_dquote);
-void	*parse_env(t_list *cmds, t_env *env);
+void	parse_env(t_list *cmds, t_env *env);
 char	*delete_quote(char	*str);
 char	*get_last(char *str);
 char	*get_middle(char *str, t_env *env);
