@@ -38,8 +38,10 @@ char	*get_rdi_target(char *str)
 		start++;
 		str++;
 	}
+	if (*str == '\'' || *str== '\"')
+		str = skip_quote(str);
 	while (*str && !ft_strchr(" <>", *str))
-		str++;
+			str++;
 	rtn = ft_strndup(start, str - start);
 	return (rtn);
 }
@@ -48,6 +50,8 @@ char	*skip_target(char *content)
 {
 	while (*content && ft_strchr(" <>", *content))
 		content++;
+	if (*content == '\'' || *content == '\"')
+		content = skip_quote(content);
 	while (*content && !ft_strchr(" <>", *content))
 		content++;
 	return (content);

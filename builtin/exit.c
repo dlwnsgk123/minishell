@@ -26,11 +26,12 @@ static int	check_digit(char *str)
 	return (1);
 }
 
-int	ft_exit(char **argv)
+int	ft_exit(char **argv, bool pipe)
 {
 	if (*(argv + 1) == NULL)
 	{
-		ft_putstr_fd("exit\n", 2);
+		if (!pipe)
+			ft_putstr_fd("exit\n", 2);
 		exit(0);
 	}
 	if (check_digit(argv[1]) == 0)
@@ -45,6 +46,7 @@ int	ft_exit(char **argv)
 		ft_putstr_fd("exit\nexit: too many arguments\n", 2);
 		exit(1);
 	}
-	ft_putstr_fd("exit\n", 2);
+	if (!pipe)
+		ft_putstr_fd("exit\n", 2);
 	exit(ft_atoi(argv[1]));
 }

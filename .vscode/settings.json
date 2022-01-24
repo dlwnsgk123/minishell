@@ -1,5 +1,8 @@
 {
 	"files.associations": {
-		"cstdio": "c"
+		"cstdio": "c",
+		"minishell.h": "c",
+		"stdbool.h": "c",
+		"wait.h": "c"
 	}
 }

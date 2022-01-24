@@ -88,10 +88,10 @@ void	execute(t_list *cmds, t_env **env);
 void	pipe_execute(t_list *cmds, t_env **env);
 int		exec_redirect(t_list *redirect);
 void	run_rdr_cmd(t_list *cmds, t_env **env);
-int		exec_builtin(t_cmd *cmd, t_env **env);
+int 	exec_builtin(t_cmd *cmd, t_env **env, bool pipe);
 
-void	rdr_right(char *target);
-void	rdr_double_right(char *target);
+int		rdr_right(char *target);
+int		rdr_double_right(char *target);
 int		rdr_left(char *target);
 void	rdr_double_left(char *target);
 
@@ -106,7 +106,7 @@ int		ft_cd(char **argv, t_env **env);
 int		ft_pwd(void);
 int		ft_env(t_env **env);
 int		ft_export(char **argv, t_env **env);
-int		ft_exit(char **argv);
+int		ft_exit(char **argv, bool pipe);
 int		ft_unset(char **argv, t_env **env);
 
 int		get_argc(char **argv);

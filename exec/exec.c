@@ -61,7 +61,7 @@ int		is_builtin(char *str)
 		return (0);
 }
 
-int	exec_builtin(t_cmd	*cmd, t_env **env)
+int	exec_builtin(t_cmd	*cmd, t_env **env, bool pipe)
 {
 	int	builtin;
 
@@ -77,7 +77,7 @@ int	exec_builtin(t_cmd	*cmd, t_env **env)
 	if (builtin == BUILTIN_EXPORT)
 		return (ft_export(cmd->argv, env));
 	if (builtin == BUILTIN_EXIT)
-		return (ft_exit(cmd->argv));
+		return (ft_exit(cmd->argv, pipe));
 	if (builtin == BUILTIN_UNSET)
 		return (ft_unset(cmd->argv, env));
 	return (0);
@@ -93,7 +93,7 @@ void	process_builtin(t_cmd *cmd, t_env **env, bool pipe)
 		fd[1] = dup(STDOUT_FILENO);
 		if (exec_redirect(cmd->redirect))
 		{
-			g_status = exec_builtin(cmd, env);
+			g_status = exec_builtin(cmd, env, pipe);
 			if (pipe)
 				exit(g_status);
 			else
@@ -107,7 +107,7 @@ void	process_builtin(t_cmd *cmd, t_env **env, bool pipe)
 	}
 	else
 	{
-		g_status = exec_builtin(cmd, env);
+		g_status = exec_builtin(cmd, env, pipe);
 		if (pipe)
 			exit(g_status);
 	}
@@ -160,6 +160,8 @@ void	execute(t_list *cmds, t_env **env)
 
 	tmp = cmds;
 	cmd = tmp->content;
+	if (cmd->argv[0] == NULL)
+		return ;
 	if (cmd->argv != NULL && is_builtin(cmd->argv[0]))
 		process_builtin(cmd, env, false);
 	else
@@ -201,6 +203,8 @@ void	child_execute(t_list *tmp, t_env **env, int fd[2], int fd_in)
 	t_cmd	*cmd;
 
 	cmd = tmp->content;
+	if (cmd->argv[0] == NULL)
+		exit(0);
 	if (dup2(fd_in, STDIN_FILENO) < 0)
 		exit_error("dup2 error line 177: ");
 	if (tmp->next != NULL)

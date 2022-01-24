@@ -67,6 +67,8 @@ void	parse_redirection(t_list **cmds)
 	while (lst)
 	{
 		tmp = ft_strdup((char *)(lst->content));
+		if (tmp == NULL)
+			exit_error("malloc error :");
 		free(lst->content);
 		lst->content = make_cmd(tmp);
 		free(tmp);

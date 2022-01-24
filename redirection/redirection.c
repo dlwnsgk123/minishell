@@ -6,11 +6,91 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:25:15 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 14:05:48 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/24 18:03:34 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	rdr_right(char *target)
+{
+	int	fd;
+	
+	fd = open(target, 
+				O_CREAT | O_WRONLY | O_TRUNC, 
+				S_IRWXU | S_IRWXO);
+	if (fd < 0)
+	{
+		ft_putstr_fd(target, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putendl_fd(strerror(errno), 2);
+		g_status = 1;
+		return (1);
+	}
+	else
+	{
+		if (dup2(fd, STDOUT_FILENO) < 0)
+			exit_error("dup2 error rdi.c : ");
+		close(fd);
+	}
+	return (0);
+}
+
+int	rdr_double_right(char *target)
+{
+	int	fd;
+	
+	fd = open(target, 
+				O_CREAT | O_WRONLY | O_APPEND, 
+				S_IRWXU | S_IRWXO);
+	if (fd < 0)
+	{
+		ft_putstr_fd(target, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putendl_fd(strerror(errno), 2);
+		g_status = 1;
+		return (1);
+	}
+	else
+	{
+		if (dup2(fd, STDOUT_FILENO))
+			exit_error("dup2 error rdi.c : ");
+		close(fd);
+	}
+	return (0);
+}
+
+int		rdr_left(char *target)
+{
+	int	fd;
+
+	fd = open(target, O_RDONLY, S_IRWXU | S_IRWXO);
+	if (fd < 0)
+	{
+		ft_putstr_fd(target, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putendl_fd(strerror(errno), 2);
+		g_status = 1;
+		return (1);
+	}
+	else
+	{
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
+	return (0);
+}
+
+int	reset_fd(int fd[2])
+{
+	if (dup2(fd[0], STDIN_FILENO) < 0)
+		exit_error("reset fd error line 85:");
+	if (dup2(fd[1], STDOUT_FILENO) < 0)
+		exit_error("reset fd error line 87");
+	close(fd[0]);
+	close(fd[1]);
+	return (0);
+}
 
 int	exec_redirect(t_list *redirect)
 {
@@ -25,19 +105,15 @@ int	exec_redirect(t_list *redirect)
 	{
 		content = tmp->content;
 		if (content->type == R_RDR)
-			rdr_right(content->target);
+			if (rdr_right(content->target))
+				return (reset_fd(fd));
 		if (content->type == RR_RDR)
-			rdr_double_right(content->target);
-		else if (content->type == L_RDR)
-		{
+			if (rdr_double_right(content->target))
+				return (reset_fd(fd));
+		if (content->type == L_RDR)
 			if (rdr_left(content->target))
-			{
-				dup2(fd[0], STDIN_FILENO);
-				dup2(fd[1], STDOUT_FILENO);
-				return (0);
-			}
-		}
-		else if (content->type == LL_RDR)
+				return (reset_fd(fd));
+		if (content->type == LL_RDR)
 		 	rdr_double_left(content->target);
 		tmp = tmp->next;
 	}

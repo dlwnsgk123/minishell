@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 07:21:51 by junhalee          #+#    #+#              #
-#    Updated: 2022/01/23 21:39:37 by junhalee         ###   ########.fr        #
+#    Updated: 2022/01/24 18:08:17 by junhalee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = #-Wextra -Werror -Wall #-fsanitize=address
+CFLAGS = -fsanitize=address #-Wextra -Werror -Wall
 
 SRCS = main.c \
 	env/env.c \
@@ -23,8 +23,8 @@ SRCS = main.c \
 	error.c \
 	parse/parse.c \
 	parse/parse_pipe.c \
-	parse/parse_redirection.c \
-	parse/parse_redirection_util.c \
+	parse/parse_rdr.c \
+	parse/parse_rdr_util.c \
 	parse/parse_env.c \
 	parse/parse_env_util.c \
 	redirection/redirection.c \
@@ -44,7 +44,7 @@ INCLUDE	=
 OBJS = $(SRCS:.c=.o)
 
 $(NAME) : $(OBJS)
-		$(MAKE) -s -C ./Libft all
+		$(MAKE) -C ./Libft all
 		$(CC) $(CFLAGS) $(OBJS) -L ./Libft -lft -o $(NAME) -lreadline
 
 all : $(NAME)

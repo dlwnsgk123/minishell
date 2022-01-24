@@ -23,7 +23,7 @@ char	*ft_strdup(char *src)
 	if (tmp == NULL)
 		return (NULL);
 	i = 0;
-	while (src[i])
+	while (src[i] != '\0')
 	{
 		tmp[i] = src[i];
 		i++;
