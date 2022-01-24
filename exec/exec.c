@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:26:20 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/24 09:18:38 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/24 09:32:56 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,8 @@ void	pipe_wait(int last_pid)
 		ft_putstr_fd("Quit\n", 2);
 	if(WIFEXITED(status_tmp))
 		g_status = WEXITSTATUS(status_tmp);
+	else
+		g_status = WTERMSIG(status) + 128;
 }
 
 void	child_execute(t_list *tmp, t_env **env, int fd[2], int fd_in)
