@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 01:39:34 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 21:48:34 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/24 05:47:42 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	sigint_newline(int	signum)
 	rl_on_new_line();
 	rl_replace_line("", 1);
 	rl_redisplay();
-	g_status = 130;
+	g_status = 1;
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -113,6 +113,8 @@ int	main(int argc, char *argv[], char *envp[])
 			continue ;
 		parse(input, &cmds, env);
 		echoctl_on();
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		if (cmds->next == NULL)
 			execute(cmds, &env);
 		else

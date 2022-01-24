@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:26:20 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 21:13:46 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/24 09:18:38 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,11 +131,14 @@ void	process_binary(t_cmd *cmd, t_env **env)
 			err_command_not_found(cmd->argv[0]);
 }
 
-void	ft_wait()
+int	ft_wait(void)
 {
 	int	status;
+	int	pid;
 
-	wait(&status);
+	pid = wait(&status);
+	if (pid < 0)
+		return (-1);
 	if(WIFEXITED(status))
 		g_status = WEXITSTATUS(status);
 	else
@@ -146,6 +149,7 @@ void	ft_wait()
 			ft_putstr_fd("Quit\n", 2);
 		g_status = WTERMSIG(status) + 128;
 	}
+	return (pid);
 }
 
 void	execute(t_list *cmds, t_env **env)
@@ -156,8 +160,6 @@ void	execute(t_list *cmds, t_env **env)
 
 	tmp = cmds;
 	cmd = tmp->content;
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
 	if (cmd->argv != NULL && is_builtin(cmd->argv[0]))
 		process_builtin(cmd, env, false);
 	else
@@ -168,6 +170,28 @@ void	execute(t_list *cmds, t_env **env)
 		else
 			ft_wait();
 	}
+}
+
+void	pipe_wait(int last_pid)
+{
+	int	status;
+	int	status_tmp;
+	int	pid;
+
+	while (1)
+	{
+		pid = wait(&status);
+		if (pid == last_pid)
+			status_tmp = status;
+		if (pid < 0)
+			break ;
+	}
+	if (status == SIGINT || status_tmp == SIGINT)
+		ft_putstr_fd("\n", 2);
+	else if (status == SIGQUIT || status_tmp == SIGINT)
+		ft_putstr_fd("Quit\n", 2);
+	if(WIFEXITED(status_tmp))
+		g_status = WEXITSTATUS(status_tmp);
 }
 
 void	child_execute(t_list *tmp, t_env **env, int fd[2], int fd_in)
@@ -183,7 +207,10 @@ void	child_execute(t_list *tmp, t_env **env, int fd[2], int fd_in)
 			exit_error("dup2 error  line 180: ");
 	}
 	close(fd[0]);
-	process_binary(cmd, env);
+	if (is_builtin(cmd->argv[0]))
+		process_builtin(cmd, env, 1);
+	else
+		process_binary(cmd, env);
 }
 
 void	pipe_execute(t_list *cmds, t_env **env)
@@ -192,15 +219,17 @@ void	pipe_execute(t_list *cmds, t_env **env)
 	t_list	*tmp;
 	int		pid;
 	int		fd_in;
-	int		i;
+	int		last_pid;
 
 	tmp = cmds;
-	fd_in = 0;
+	fd_in = dup(0);
 	while (tmp != NULL)
 	{
 		if (pipe(fd) < 0)
             exit_error("pipe error : ");
 		pid = fork();
+		if (tmp->next == NULL)
+			last_pid = pid;
 		if (pid < 0)
 			return ;
 		else if (pid == 0)
@@ -208,11 +237,12 @@ void	pipe_execute(t_list *cmds, t_env **env)
 		else
 		{
 			close(fd[1]);
-			fd_in = 200;
 			if (dup2(fd[0], fd_in) < 0)
 				exit_error("dup error :");
 			close(fd[0]);
 			tmp = tmp->next;
 		}
 	}
+	pipe_wait(last_pid);
+	close(fd_in);
 }
