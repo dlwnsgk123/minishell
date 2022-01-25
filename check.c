@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 09:50:14 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/25 12:47:36 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/25 13:20:41 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ static int	check_near_token(char *input)
 {
 	while (*input)
 	{
-		if (*input == '\'' || *input == '\"')
+		if (*input == '\"' || *input == '\'')
 			input = skip_quote(input);
-		if (*input == '|' || *input == '>' || *input == '<')
+		if (input == NULL)
+			return (0);
+		else if (ft_strchr("><|", *input))
 		{
 			if (*input == '>' && *(input + 1) == '>')
 				input++;
@@ -44,11 +46,10 @@ static int	check_near_token(char *input)
 			input++;
 			while (*input == ' ')
 				input++;
-			if (*input == '|' || *input == '>' || *input == '<')
+			if (ft_strchr("><|", *input))
 				return (1);
 		}
-		if (*input != '\0')
-			input++;
+		input++;
 	}
 	return (0);
 }
