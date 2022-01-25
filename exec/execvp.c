@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 08:11:58 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/25 12:55:19 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/25 13:30:25 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,15 @@ void	path_exec(char **argv, char *env_path, char **envp)
 	i = 0;
 	slash_argv = ft_strjoin("/", argv[0]);
 	argv_tmp = argv[0];
-	argv[0] = slash_argv;
 	path = ft_split(env_path, ':');
 	while (path[i])
 	{
-		tmp = ft_strjoin(path[i], argv[0]);
+		tmp = ft_strjoin(path[i], slash_argv);
 		execve(tmp, argv, envp);
 		free(tmp);
 		i++;
 	}
+	free(slash_argv);
 	free_split(path);
 	err_command_not_found(argv_tmp);
 }
