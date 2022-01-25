@@ -52,26 +52,38 @@ static int	print_export(t_env **env)
 	return (0);
 }
 
+int	export_error(int rtn, char *argv)
+{
+	ft_putstr_fd("export: `", 2);
+	ft_putstr_fd(argv, 2);
+	ft_putstr_fd("\' not a valid identifier\n", 2);
+	rtn = 1;
+	return (rtn);
+}
+
 int	ft_export(char **argv, t_env **env)
 {
 	char	*key;
 	char	*value;
+	int		rtn;
+	int		i;
 
-	if (argv[1] == NULL)
+	i = 1;
+	rtn = 0;
+	if (argv[i] == NULL)
 		return (print_export(env));
-	if (!ft_isalpha(argv[1][0]))
+	while (argv[i])
 	{
-		ft_putstr_fd("export: `", 2);
-		ft_putstr_fd(argv[1], 2);
-		ft_putstr_fd("\' not a valid identifier\n", 2);
-		return (1);
+		if (!ft_isalpha(argv[i][0]))
+			rtn = export_error(rtn, argv[i]);
+		else
+		{
+			key = get_export_key(argv[i]);
+			value = get_export_value(argv[i]);
+			env_change_value(env, key, value);
+			free(key);
+		}
+		i++;
 	}
-	else
-	{
-		key = get_export_key(argv[1]);
-		value = get_export_value(argv[1]);
-		env_change_value(env, key, value);
-		free(key);
-	}
-	return (0);
+	return (rtn);
 }

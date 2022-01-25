@@ -51,7 +51,7 @@ char	*get_middle(char *str, t_env *env)
 
 	key = get_key(str);
 	if (*key == '\0' && (*(str + 1) == ' '
-		|| *(str + 1) == '\0' || *(str + 1) == '\"'))
+		|| *(str + 1) == '\0'))
 		return (free_return("$", key));
 	if (*key == '?')
 	{

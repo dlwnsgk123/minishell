@@ -84,6 +84,7 @@ int	check_input(char *input)
 {
 	if (check_quotes(input))
 	{
+		g_status = 2;
 		ft_putstr_fd("syntax error\n", STDERR_FILENO);
 		return (1);
 	}

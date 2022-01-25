@@ -31,7 +31,7 @@ char	*replace_env(char *str, char *start, t_env *env, bool in_dquote)
 	free(first);
 	free(front);
 	free(back);
-	return (delete_quote(start));
+	return (start);
 }
 
 char	*parse_env_start(char *str, t_env *env, bool in_dquote)
@@ -49,7 +49,7 @@ char	*parse_env_start(char *str, t_env *env, bool in_dquote)
 			return (replace_env(str, start, env, in_dquote));
 		str++;
 	}
-	return (delete_quote(start));
+	return (start);
 }
 
 void	parse_env(t_list *cmds, t_env *env)
@@ -69,11 +69,11 @@ void	parse_env(t_list *cmds, t_env *env)
 			while (rdi_lst)
 			{
 				rdi = rdi_lst->content;
-				rdi->target = parse_env_start(rdi->target, env, false);
+				rdi->target = delete_quote(parse_env_start(rdi->target, env, false));
 				rdi_lst = rdi_lst->next;
 			}
 		}
-		cmd->tmp = parse_env_start(cmd->tmp, env, false);
+		cmd->tmp = delete_quote(parse_env_start(cmd->tmp, env, false));
 		cmd->argv = ft_split(cmd->tmp, ' ');
 		free(cmd->tmp);
 		tmp = tmp->next;

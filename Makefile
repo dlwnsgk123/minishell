@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = -fsanitize=address -Wextra -Werror -Wall
+CFLAGS = -Wextra -Werror -Wall
 
 SRCS = main.c \
 	env/env.c \

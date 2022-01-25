@@ -15,25 +15,25 @@
 void	pipe_wait(int last_pid)
 {
 	int	status;
-	int	status_tmp;
+	int	last_status;
 	int	pid;
 
 	while (1)
 	{
 		pid = wait(&status);
 		if (pid == last_pid)
-			status_tmp = status;
+			last_status = status;
 		if (pid < 0)
 			break ;
 	}
-	if (status == SIGINT || status_tmp == SIGINT)
+	if (status == SIGINT || last_status == SIGINT)
 		ft_putstr_fd("\n", 2);
-	else if (status == SIGQUIT || status_tmp == SIGINT)
+	else if (status == SIGQUIT || last_status == SIGINT)
 		ft_putstr_fd("Quit\n", 2);
-	if (WIFEXITED(status_tmp))
-		g_status = WEXITSTATUS(status_tmp);
+	if (WIFEXITED(last_status))
+		g_status = WEXITSTATUS(last_status);
 	else
-		g_status = WTERMSIG(status) + 128;
+		g_status = WTERMSIG(last_status) + 128;
 }
 
 void	child_execute(t_list *tmp, t_env **env, int fd[2], int fd_in)
