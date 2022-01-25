@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 11:07:37 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 12:46:52 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/25 13:35:17 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*get_export_value(char *str)
 {
 	char	*tmp;
 
-	tmp = strchr(str, '=');
+	tmp = ft_strchr(str, '=');
 	if (tmp == NULL)
 		return (ft_strdup(""));
 	return (ft_strdup(tmp + 1));
