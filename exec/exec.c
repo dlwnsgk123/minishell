@@ -6,60 +6,11 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:26:20 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/24 09:32:56 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/25 12:16:22 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/*
-int	ft_execve(t_cmd *cmd, t_env **env)
-{
-	//int execvp(char *file, char *argv[]);
-	//int execve(char *path, char *argv[], char *envp[]);
-	struct stat	sb;
-	char	**path;
-
-	path = ft_strjoin("/usr/bin/", cmd->argv[0]);
-	if (stat(path, &sb) == -1)
-		return (-1);
-	else
-	{
-		if (execve(path, cmd->argv, 0) < 0)
-			return (-1);
-	}
-	return (0);
-}
-*/
-
-void	err_command_not_found(char *target)
-{
-	ft_putstr_fd(target, 2);
-	ft_putstr_fd(": command not found\n", 2);
-	exit(127);
-}
-
-int		is_builtin(char *str)
-{
-	if (str == NULL)
-		return (0);
-	if (ft_strcmp(str, "exit") == 0)
-		return (BUILTIN_EXIT);
-	else if (ft_strcmp(str, "cd") == 0)
-		return (BUILTIN_CD);
-	else if (ft_strcmp(str, "echo") == 0)
-		return (BUILTIN_ECHO);
-	else if (ft_strcmp(str, "export") == 0)
-		return (BUILTIN_EXPORT);
-	else if (ft_strcmp(str, "unset") == 0)
-		return (BUILTIN_UNSET);
-	else if (ft_strcmp(str, "env") == 0)
-		return (BUILTIN_ENV);
-	else if (ft_strcmp(str, "pwd") == 0)
-		return (BUILTIN_PWD);
-	else
-		return (0);
-}
 
 int	exec_builtin(t_cmd	*cmd, t_env **env, bool pipe)
 {
@@ -83,6 +34,14 @@ int	exec_builtin(t_cmd	*cmd, t_env **env, bool pipe)
 	return (0);
 }
 
+void	reset_iofd(int fd[2])
+{
+	if (dup2(fd[1], STDOUT_FILENO))
+		exit_error("STDOUT reset error :");
+	if (dup2(fd[0], STDIN_FILENO))
+		exit_error("STDIN reset error :");
+}
+
 void	process_builtin(t_cmd *cmd, t_env **env, bool pipe)
 {
 	int		fd[2];
@@ -91,16 +50,13 @@ void	process_builtin(t_cmd *cmd, t_env **env, bool pipe)
 	{
 		fd[0] = dup(STDIN_FILENO);
 		fd[1] = dup(STDOUT_FILENO);
-		if (exec_redirect(cmd->redirect))
+		if (exec_redirect(cmd->redirect, *env))
 		{
 			g_status = exec_builtin(cmd, env, pipe);
 			if (pipe)
 				exit(g_status);
 			else
-			{
-				dup2(fd[1], STDOUT_FILENO);
-				dup2(fd[0], STDIN_FILENO);
-			}
+				reset_iofd(fd);
 		}
 		close(fd[1]);
 		close(fd[0]);
@@ -115,41 +71,21 @@ void	process_builtin(t_cmd *cmd, t_env **env, bool pipe)
 
 void	process_binary(t_cmd *cmd, t_env **env)
 {
-	(void)env;
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (cmd->redirect != NULL)
 	{
-		if (exec_redirect(cmd->redirect))
+		if (exec_redirect(cmd->redirect, *env))
 		{
-			if (execvp(cmd->argv[0], cmd->argv) < 0)
-				err_command_not_found(cmd->argv[0]);
+			if (cmd->argv[0] == NULL)
+				exit(0);
+			ft_execvp(cmd->argv, *env);
 		}
+		else
+			exit(1);
 	}
 	else
-		if (execvp(cmd->argv[0], cmd->argv) < 0)
-			err_command_not_found(cmd->argv[0]);
-}
-
-int	ft_wait(void)
-{
-	int	status;
-	int	pid;
-
-	pid = wait(&status);
-	if (pid < 0)
-		return (-1);
-	if(WIFEXITED(status))
-		g_status = WEXITSTATUS(status);
-	else
-	{
-		if (status == SIGINT)
-			ft_putstr_fd("\n", 2);
-		else if (status == SIGQUIT)
-			ft_putstr_fd("Quit\n", 2);
-		g_status = WTERMSIG(status) + 128;
-	}
-	return (pid);
+		ft_execvp(cmd->argv, *env);
 }
 
 void	execute(t_list *cmds, t_env **env)
@@ -160,95 +96,14 @@ void	execute(t_list *cmds, t_env **env)
 
 	tmp = cmds;
 	cmd = tmp->content;
-	if (cmd->argv[0] == NULL)
-		return ;
 	if (cmd->argv != NULL && is_builtin(cmd->argv[0]))
 		process_builtin(cmd, env, false);
 	else
 	{
-	 	pid = fork();
+		pid = fork();
 		if (pid == 0)
 			process_binary(cmd, env);
 		else
 			ft_wait();
 	}
-}
-
-void	pipe_wait(int last_pid)
-{
-	int	status;
-	int	status_tmp;
-	int	pid;
-
-	while (1)
-	{
-		pid = wait(&status);
-		if (pid == last_pid)
-			status_tmp = status;
-		if (pid < 0)
-			break ;
-	}
-	if (status == SIGINT || status_tmp == SIGINT)
-		ft_putstr_fd("\n", 2);
-	else if (status == SIGQUIT || status_tmp == SIGINT)
-		ft_putstr_fd("Quit\n", 2);
-	if(WIFEXITED(status_tmp))
-		g_status = WEXITSTATUS(status_tmp);
-	else
-		g_status = WTERMSIG(status) + 128;
-}
-
-void	child_execute(t_list *tmp, t_env **env, int fd[2], int fd_in)
-{
-	t_cmd	*cmd;
-
-	cmd = tmp->content;
-	if (cmd->argv[0] == NULL)
-		exit(0);
-	if (dup2(fd_in, STDIN_FILENO) < 0)
-		exit_error("dup2 error line 177: ");
-	if (tmp->next != NULL)
-	{
-		if (dup2(fd[1], STDOUT_FILENO) < 0)
-			exit_error("dup2 error  line 180: ");
-	}
-	close(fd[0]);
-	if (is_builtin(cmd->argv[0]))
-		process_builtin(cmd, env, 1);
-	else
-		process_binary(cmd, env);
-}
-
-void	pipe_execute(t_list *cmds, t_env **env)
-{
-	int		fd[2];
-	t_list	*tmp;
-	int		pid;
-	int		fd_in;
-	int		last_pid;
-
-	tmp = cmds;
-	fd_in = dup(0);
-	while (tmp != NULL)
-	{
-		if (pipe(fd) < 0)
-            exit_error("pipe error : ");
-		pid = fork();
-		if (tmp->next == NULL)
-			last_pid = pid;
-		if (pid < 0)
-			return ;
-		else if (pid == 0)
-			child_execute(tmp, env, fd, fd_in);
-		else
-		{
-			close(fd[1]);
-			if (dup2(fd[0], fd_in) < 0)
-				exit_error("dup error :");
-			close(fd[0]);
-			tmp = tmp->next;
-		}
-	}
-	pipe_wait(last_pid);
-	close(fd_in);
 }

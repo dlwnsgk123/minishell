@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:25:15 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/24 18:03:34 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/25 12:49:38 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 int	rdr_right(char *target)
 {
 	int	fd;
-	
-	fd = open(target, 
-				O_CREAT | O_WRONLY | O_TRUNC, 
-				S_IRWXU | S_IRWXO);
+
+	fd = open(target,
+			O_CREAT | O_WRONLY | O_TRUNC,
+			S_IRWXU | S_IRWXO);
 	if (fd < 0)
 	{
 		ft_putstr_fd(target, 2);
@@ -39,10 +39,10 @@ int	rdr_right(char *target)
 int	rdr_double_right(char *target)
 {
 	int	fd;
-	
-	fd = open(target, 
-				O_CREAT | O_WRONLY | O_APPEND, 
-				S_IRWXU | S_IRWXO);
+
+	fd = open(target,
+			O_CREAT | O_WRONLY | O_APPEND,
+			S_IRWXU | S_IRWXO);
 	if (fd < 0)
 	{
 		ft_putstr_fd(target, 2);
@@ -53,14 +53,14 @@ int	rdr_double_right(char *target)
 	}
 	else
 	{
-		if (dup2(fd, STDOUT_FILENO))
+		if (dup2(fd, STDOUT_FILENO) < 0)
 			exit_error("dup2 error rdi.c : ");
 		close(fd);
 	}
 	return (0);
 }
 
-int		rdr_left(char *target)
+int	rdr_left(char *target)
 {
 	int	fd;
 
@@ -92,12 +92,12 @@ int	reset_fd(int fd[2])
 	return (0);
 }
 
-int	exec_redirect(t_list *redirect)
+int	exec_redirect(t_list *redirect, t_env *env)
 {
 	t_list	*tmp;
 	t_rdi	*content;
 	int		fd[2];
-	
+
 	fd[0] = dup(STDIN_FILENO);
 	fd[1] = dup(STDOUT_FILENO);
 	tmp = redirect;
@@ -114,7 +114,7 @@ int	exec_redirect(t_list *redirect)
 			if (rdr_left(content->target))
 				return (reset_fd(fd));
 		if (content->type == LL_RDR)
-		 	rdr_double_left(content->target);
+			rdr_double_left(content->target, env);
 		tmp = tmp->next;
 	}
 	return (1);

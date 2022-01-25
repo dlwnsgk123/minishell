@@ -6,7 +6,7 @@
 #    By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 07:21:51 by junhalee          #+#    #+#              #
-#    Updated: 2022/01/24 18:08:17 by junhalee         ###   ########.fr        #
+#    Updated: 2022/01/25 12:57:08 by junhalee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,10 @@ SRCS = main.c \
 	redirection/redirection.c \
 	redirection/redirection2.c \
 	exec/exec.c \
+	exec/exec_pipe.c \
+	exec/exec_util.c \
+	exec/execvp.c \
+	exec/execvp_util.c \
 	echoctl.c \
 	builtin/echo.c \
 	builtin/cd.c \
@@ -44,7 +48,7 @@ INCLUDE	=
 OBJS = $(SRCS:.c=.o)
 
 $(NAME) : $(OBJS)
-		$(MAKE) -C ./Libft all
+		make -C ./Libft all
 		$(CC) $(CFLAGS) $(OBJS) -L ./Libft -lft -o $(NAME) -lreadline
 
 all : $(NAME)

@@ -67,6 +67,9 @@ t_env	*ft_envnew(char *envp);
 char	*skip_quote(char *input);
 int		check_input(char *input);
 int		check_empty(char *input);
+int		get_argc(char **argv);
+void	exit_error(char	*str);
+void	free_split(char **str);
 
 /*---------------------------- parse ------------------------------*/
 
@@ -82,24 +85,35 @@ char	*get_last(char *str);
 char	*get_middle(char *str, t_env *env);
 char	*get_key(char *str);
 
-/*-----------------------------------------------------------------*/
+/*--------------------------- execute ------------------------------*/
 
 void	execute(t_list *cmds, t_env **env);
 void	pipe_execute(t_list *cmds, t_env **env);
-int		exec_redirect(t_list *redirect);
+int		exec_redirect(t_list *redirect, t_env *env);
 void	run_rdr_cmd(t_list *cmds, t_env **env);
 int 	exec_builtin(t_cmd *cmd, t_env **env, bool pipe);
-
+int		is_builtin(char *str);
+void	process_binary(t_cmd *cmd, t_env **env);
+void	process_builtin(t_cmd *cmd, t_env **env, bool pipe);
+void	err_command_not_found(char *target);
+void	err_no_such_file(char *argv);
+int		ft_wait(void);
+int		is_builtin(char *str);
+void	ft_execvp(char **argv, t_env *env);
 int		rdr_right(char *target);
 int		rdr_double_right(char *target);
 int		rdr_left(char *target);
-void	rdr_double_left(char *target);
+void	rdr_double_left(char *target, t_env *env);
+int		env_len(t_env *env);
+char	**make_envp(t_env *env);
+
+/*--------------------------- signal ------------------------------*/
 
 void	echoctl_on(void);
 void	echoctl_off(void);
-
 void	sig_newline(int	signum);
-void	sig_endl(int signum);
+
+/*--------------------------- builtin ------------------------------*/
 
 int		ft_echo(char **argv);
 int		ft_cd(char **argv, t_env **env);
@@ -108,9 +122,5 @@ int		ft_env(t_env **env);
 int		ft_export(char **argv, t_env **env);
 int		ft_exit(char **argv, bool pipe);
 int		ft_unset(char **argv, t_env **env);
-
-int		get_argc(char **argv);
-
-void	exit_error(char	*str);
 
 #endif

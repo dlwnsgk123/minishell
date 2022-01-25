@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 09:50:14 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/20 15:52:30 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/25 12:47:36 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 static int	check_quotes(char *input)
 {
-	int		i;
-
-	i = 0;
 	while (*input)
 	{
 		if (*input == '\"')
@@ -32,21 +29,26 @@ static int	check_quotes(char *input)
 	return (0);
 }
 
-static int	check_multi_pipe(char *input)
+static int	check_near_token(char *input)
 {
 	while (*input)
 	{
 		if (*input == '\'' || *input == '\"')
 			input = skip_quote(input);
-		if (*input == '|')
+		if (*input == '|' || *input == '>' || *input == '<')
 		{
+			if (*input == '>' && *(input + 1) == '>')
+				input++;
+			else if (*input == '<' && *(input + 1) == '<')
+				input++;
 			input++;
 			while (*input == ' ')
 				input++;
-			if (*input == '|')
+			if (*input == '|' || *input == '>' || *input == '<')
 				return (1);
 		}
-		input++;
+		if (*input != '\0')
+			input++;
 	}
 	return (0);
 }
@@ -89,10 +91,10 @@ int	check_input(char *input)
 		ft_putstr_fd("syntax error\n", STDERR_FILENO);
 		return (1);
 	}
-	if (check_multi_pipe(input))
+	 if (check_near_token(input))
 	{
-		ft_putstr_fd("syntax error\n", STDERR_FILENO);
-		return (1);
+		ft_putstr_fd("neer syntax error\n", STDERR_FILENO);
+	 	return (1);
 	}
 	else
 		return (0);

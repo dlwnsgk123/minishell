@@ -27,11 +27,9 @@ int	get_rdi_type(char *str)
 
 char	*get_rdi_target(char *str)
 {
-	int		i;
 	char	*start;
 	char	*rtn;
 
-	i = 0;
 	start = str;
 	while (*start && ft_strchr(" <>", *str))
 	{

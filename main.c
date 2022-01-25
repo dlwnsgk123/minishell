@@ -80,7 +80,7 @@ void	cmd_clear(t_list **cmd)
 	}
 }
 
-void	sigint_newline(int	signum)
+void	sigint_newline(int signum)
 {
 	(void)signum;
 	ft_putstr_fd("\n", 1);
@@ -119,6 +119,7 @@ int	main(int argc, char *argv[], char *envp[])
 			execute(cmds, &env);
 		else
 			pipe_execute(cmds, &env);
+		unlink(".heredoc");
 		cmd_clear(&cmds);
 	}
 	return (0);

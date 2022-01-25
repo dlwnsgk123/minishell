@@ -52,16 +52,23 @@ static char	*rdr_parse_env(char *str, t_env *env, bool in_dquote)
 	return (start);
 }
 
-void	rdr_double_left(char *target)
+void	rdr_double_left(char *target, t_env *env)
 {
 	int		fd;
 	char	*input;
 
 	fd = open(".heredoc", O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU | S_IRWXO);
+	if (fd < 0)
+		exit_error("heredoc make error :");
 	while (1)
 	{
-		
+		input = readline("> ");
+		if (input == NULL || ft_strcmp(input, target) == 0)
+			break ;
+		ft_putendl_fd(rdr_parse_env(input, env, false), fd);
+		free(input);
 	}
-	dup2(fd, STDIN_FILENO);
+	free(input);
 	close(fd);
+	rdr_left(".heredoc");
 }
