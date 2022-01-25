@@ -28,8 +28,10 @@ int	take_input(char **input)
 	}
 	if (ft_strlen(*input) != 0)
 	{
-		if (check_empty(*input))
+		if (check_empty(*input) == 0)
 			add_history(*input);
+		else
+			return (1);
 		tmp = ft_strtrim(*input, " ");
 		free(*input);
 		*input = tmp;

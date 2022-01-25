@@ -75,13 +75,15 @@ int	check_empty(char *input)
 		if (input[i] == ' ')
 			i++;
 		else
-			return (1);
+			return (0);
 	}
-	return (0);
+	return (1);
 }
 
 int	check_input(char *input)
 {
+	if (check_empty(input))
+		return (1);
 	if (check_quotes(input))
 	{
 		g_status = 2;
@@ -90,12 +92,14 @@ int	check_input(char *input)
 	}
 	if (check_lastchar(input))
 	{
+		g_status = 2;
 		ft_putstr_fd("syntax error\n", STDERR_FILENO);
 		return (1);
 	}
 	 if (check_near_token(input))
 	{
-		ft_putstr_fd("neer syntax error\n", STDERR_FILENO);
+		g_status = 2;
+		ft_putstr_fd("syntax error\n", STDERR_FILENO);
 	 	return (1);
 	}
 	else

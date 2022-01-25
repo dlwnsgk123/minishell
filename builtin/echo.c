@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static int	check_option(char *str)
+static int	option_count(char *str)
 {
 	int	i;
 
@@ -32,6 +32,23 @@ static int	check_option(char *str)
 	return (1);
 }
 
+static int	check_option(char **argv)
+{
+	int	i;
+	int	option;
+
+	i = 1;
+	option = 0;
+	while (argv[i])
+	{
+		if (option_count(argv[i]) == 0)
+			break ;
+		i++;
+		option++;
+	}
+	return (option);
+}
+
 int	ft_echo(char **argv)
 {
 	int	i;
@@ -43,7 +60,7 @@ int	ft_echo(char **argv)
 		ft_putstr_fd("\n", 1);
 		return (0);
 	}
-	option = check_option(argv[i]);
+	option = check_option(argv);
 	i += option;
 	while (argv[i])
 	{
