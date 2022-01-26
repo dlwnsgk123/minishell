@@ -16,7 +16,7 @@ void	print_env(t_env *env)
 {
 	while (env)
 	{
-		if (env->value && env->value[0] != '\0')
+		if (env->value != NULL)
 			printf("%s=%s\n", env->key, env->value);
 		env = env->next;
 	}

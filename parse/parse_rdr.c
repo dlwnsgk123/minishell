@@ -62,7 +62,7 @@ void	parse_redirection(t_list **cmds)
 {
 	char	*tmp;
 	t_list	*lst;
-	
+
 	lst = *cmds;
 	while (lst)
 	{

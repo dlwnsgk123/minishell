@@ -100,7 +100,7 @@ int	check_input(char *input)
 	{
 		g_status = 2;
 		ft_putstr_fd("syntax error\n", STDERR_FILENO);
-	 	return (1);
+		return (1);
 	}
 	else
 		return (0);

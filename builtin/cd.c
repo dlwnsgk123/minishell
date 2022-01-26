@@ -22,12 +22,13 @@ int	get_argc(char **argv)
 	return (argc);
 }
 
-char	*get_newpath(char *str, t_env **env)
+char	*get_newpath(char *str, t_env **env, int *flag)
 {
 	if (str == NULL)
+	{
+		*flag = 1;
 		return (env_get_value(env, "HOME"));
-	else if (*str == '~')
-		return (env_get_value(env, "HOME"));
+	}
 	else if (*str == '-')
 		return (env_get_value(env, "OLDPWD"));
 	else
@@ -45,22 +46,29 @@ static int	error_rtn(char *newpath, char *oldpath)
 	return (1);
 }
 
+static int	error_notset_rtn(int flag)
+{
+	if (flag == 1)
+		ft_putstr_fd("cd: HOME not set\n", STDERR_FILENO);
+	else
+		ft_putstr_fd("cd: OLDPWD not set\n", STDERR_FILENO);
+	return (1);
+}
+
 int	ft_cd(char **argv, t_env **env)
 {
 	char	*oldpath;
 	char	*newpath;
+	int		flag;
 
 	if (get_argc(argv) > 2)
 	{
 		ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
-	newpath = get_newpath(argv[1], env);
+	newpath = get_newpath(argv[1], env, &flag);
 	if (newpath == NULL)
-	{
-		ft_putstr_fd("cd: OLDPWD not set\n", STDERR_FILENO);
-		return (1);
-	}
+		return (error_notset_rtn(flag));
 	oldpath = getcwd(NULL, 0);
 	if (oldpath == NULL)
 		exit_error("getcwd error cd.c: ");

@@ -14,7 +14,11 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = -Wextra -Werror -Wall
+CFLAGS = -Wextra -Werror -Wall -fsanitize=address
+
+LDFLAGS=-L/Users/junhalee/.brew/opt/readline/lib
+
+CPPFLAGS=-I/Users/junhalee/.brew/opt/readline/include
 
 SRCS = main.c \
 	env/env.c \
@@ -49,11 +53,12 @@ OBJS = $(SRCS:.c=.o)
 
 $(NAME) : $(OBJS)
 		make -C ./Libft all
-		$(CC) $(CFLAGS) $(OBJS) -L ./Libft -lft -o $(NAME) -lreadline
+		$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -L ./Libft -lft -o $(NAME) -lreadline
 
 all : $(NAME)
 
 clean :
+		make -C ./Libft clean
 		rm -rf $(OBJS)
 
 fclean : clean

@@ -91,7 +91,7 @@ void	execute(t_list *cmds, t_env **env);
 void	pipe_execute(t_list *cmds, t_env **env);
 int		exec_redirect(t_list *redirect, t_env *env);
 void	run_rdr_cmd(t_list *cmds, t_env **env);
-int 	exec_builtin(t_cmd *cmd, t_env **env, bool pipe);
+int		exec_builtin(t_cmd *cmd, t_env **env, bool pipe);
 int		is_builtin(char *str);
 void	process_binary(t_cmd *cmd, t_env **env);
 void	process_builtin(t_cmd *cmd, t_env **env, bool pipe);

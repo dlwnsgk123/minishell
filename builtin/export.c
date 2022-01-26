@@ -29,11 +29,13 @@ static char	*get_export_key(char *str)
 static char	*get_export_value(char *str)
 {
 	char	*tmp;
+	char	*value;
 
 	tmp = ft_strchr(str, '=');
 	if (tmp == NULL)
-		return (ft_strdup(""));
-	return (ft_strdup(tmp + 1));
+		return (NULL);
+	value = ft_strdup(tmp + 1);
+	return (value);
 }
 
 static int	print_export(t_env **env)
@@ -43,7 +45,7 @@ static int	print_export(t_env **env)
 	tmp = *env;
 	while (tmp)
 	{
-		if (tmp->value[0] != '\0')
+		if (tmp->value != NULL)
 			printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
 		else
 			printf("declare -x %s\n", tmp->key);

@@ -69,7 +69,8 @@ void	parse_env(t_list *cmds, t_env *env)
 			while (rdi_lst)
 			{
 				rdi = rdi_lst->content;
-				rdi->target = delete_quote(parse_env_start(rdi->target, env, false));
+				rdi->target = delete_quote(\
+							parse_env_start(rdi->target, env, false));
 				rdi_lst = rdi_lst->next;
 			}
 		}

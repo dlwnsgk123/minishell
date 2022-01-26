@@ -36,10 +36,10 @@ char	*get_rdi_target(char *str)
 		start++;
 		str++;
 	}
-	if (*str == '\'' || *str== '\"')
+	if (*str == '\'' || *str == '\"')
 		str = skip_quote(str);
 	while (*str && !ft_strchr(" <>", *str))
-			str++;
+		str++;
 	rtn = ft_strndup(start, str - start);
 	return (rtn);
 }

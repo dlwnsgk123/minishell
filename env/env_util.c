@@ -72,23 +72,29 @@ void	env_change_value(t_env **env, char *key, char *value)
 	{
 		if (ft_strcmp(key, tmp->key) == 0)
 		{
-			free(tmp->value);
-			tmp->value = ft_strdup(value);
-			free(value);
-			return ;
+			if (value == NULL)
+				return ;
+			else
+			{
+				free(tmp->value);
+				tmp->value = value;
+				return ;
+			}
 		}
 		tmp = tmp->next;
 	}
+	tmp = (t_env *)malloc(sizeof(t_env));
 	if (tmp == NULL)
+		exit_error("malloc error env_util.c : line 68: ");
+	tmp->key = ft_strdup(key);
+	if (value != NULL)
 	{
-		tmp = (t_env *)malloc(sizeof(t_env));
-		if (tmp == NULL)
-			exit_error("env_util.c : line 68: ");
-		tmp->key = ft_strdup(key);
 		tmp->value = ft_strdup(value);
-		env_add_back(env, tmp);
 		free(value);
 	}
+	else
+		tmp->value = NULL;
+	env_add_back(env, tmp);
 }
 
 char	*env_get_value(t_env **env, char *key)

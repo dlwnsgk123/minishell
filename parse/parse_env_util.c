@@ -50,7 +50,7 @@ char	*get_middle(char *str, t_env *env)
 	char	*key;
 
 	key = get_key(str);
-	if (*key == '\0' && (*(str + 1) == ' '
+	if (*key == '\0' && (*(str + 1) == ' '\
 		|| *(str + 1) == '\0'))
 		return (free_return("$", key));
 	if (*key == '?')
@@ -61,7 +61,12 @@ char	*get_middle(char *str, t_env *env)
 	while (env)
 	{
 		if (ft_strcmp(key, env->key) == 0)
-			return (free_return(env->value, key));
+		{
+			if (env->value != NULL)
+				return (free_return(env->value, key));
+			else
+				return (free_return("", key));
+		}
 		env = env->next;
 	}
 	return (free_return("", key));
