@@ -63,6 +63,24 @@ void	env_delete_node(char *key, t_env **env)
 	}
 }
 
+t_env	*env_new_key_value(char *key, char *value)
+{
+	t_env	*tmp;
+
+	tmp = (t_env *)malloc(sizeof(t_env));
+	if (tmp == NULL)
+		exit_error("malloc error env_util.c : line 68: ");
+	tmp->key = ft_strdup(key);
+	if (value != NULL)
+	{
+		tmp->value = ft_strdup(value);
+		free(value);
+	}
+	else
+		tmp->value = NULL;
+	return (tmp);
+}
+
 void	env_change_value(t_env **env, char *key, char *value)
 {
 	t_env	*tmp;
@@ -83,32 +101,6 @@ void	env_change_value(t_env **env, char *key, char *value)
 		}
 		tmp = tmp->next;
 	}
-	tmp = (t_env *)malloc(sizeof(t_env));
-	if (tmp == NULL)
-		exit_error("malloc error env_util.c : line 68: ");
-	tmp->key = ft_strdup(key);
-	if (value != NULL)
-	{
-		tmp->value = ft_strdup(value);
-		free(value);
-	}
-	else
-		tmp->value = NULL;
+	tmp = env_new_key_value(key, value);
 	env_add_back(env, tmp);
-}
-
-char	*env_get_value(t_env **env, char *key)
-{
-	t_env	*tmp;
-
-	tmp = *env;
-	while (tmp)
-	{
-		if (ft_strcmp(key, tmp->key) == 0)
-		{
-			return (ft_strdup(tmp->value));
-		}
-		tmp = tmp->next;
-	}
-	return (NULL);
 }

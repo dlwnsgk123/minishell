@@ -12,6 +12,22 @@
 
 #include "../minishell.h"
 
+char	*env_get_value(t_env **env, char *key)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	while (tmp)
+	{
+		if (ft_strcmp(key, tmp->key) == 0)
+		{
+			return (ft_strdup(tmp->value));
+		}
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
 static char	*get_env_key(char *envp)
 {
 	int		i;
