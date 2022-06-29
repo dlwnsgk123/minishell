@@ -6,7 +6,7 @@
 #    By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 07:21:51 by junhalee          #+#    #+#              #
-#    Updated: 2022/01/25 13:21:15 by junhalee         ###   ########.fr        #
+#    Updated: 2022/01/27 12:13:43 by junhalee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = -Wextra -Werror -Wall -fsanitize=address
+CFLAGS = -Wextra -Werror -Wall #-fsanitize=address
 
 LDFLAGS=-L/Users/junhalee/.brew/opt/readline/lib
 
@@ -24,7 +24,9 @@ SRCS = main.c \
 	env/env.c \
 	env/env_util.c \
 	check.c \
+	check2.c \
 	error.c \
+	util.c \
 	parse/parse.c \
 	parse/parse_pipe.c \
 	parse/parse_rdr.c \
@@ -38,6 +40,7 @@ SRCS = main.c \
 	exec/exec_util.c \
 	exec/execvp.c \
 	exec/execvp_util.c \
+	exec/macro.c \
 	echoctl.c \
 	builtin/echo.c \
 	builtin/cd.c \
@@ -47,13 +50,11 @@ SRCS = main.c \
 	builtin/exit.c \
 	builtin/unset.c 
 
-INCLUDE	= 
-
 OBJS = $(SRCS:.c=.o)
 
 $(NAME) : $(OBJS)
 		make -C ./Libft all
-		$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -L ./Libft -lft -o $(NAME) -lreadline
+		$(CC) $(CFLAGS) $(OBJS) $(CPPFLAGS) $(LDFLAGS) -L ./Libft -lft -o $(NAME) -lreadline
 
 all : $(NAME)
 
@@ -62,6 +63,7 @@ clean :
 		rm -rf $(OBJS)
 
 fclean : clean
+		make -C ./Libft fclean
 		rm -rf $(NAME)
 
 re	: fclean all

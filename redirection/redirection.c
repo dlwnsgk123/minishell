@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:25:15 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/25 12:49:38 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/27 11:46:40 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ int	rdr_left(char *target)
 int	reset_fd(int fd[2])
 {
 	if (dup2(fd[0], STDIN_FILENO) < 0)
-		exit_error("reset fd error line 85:");
+		exit_error("reset fd error:");
 	if (dup2(fd[1], STDOUT_FILENO) < 0)
-		exit_error("reset fd error line 87");
+		exit_error("reset fd error:");
 	close(fd[0]);
 	close(fd[1]);
 	return (0);

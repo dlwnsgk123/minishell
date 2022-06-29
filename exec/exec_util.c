@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 07:51:21 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/25 12:35:56 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/27 11:56:28 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ int	ft_wait(void)
 	pid = wait(&status);
 	if (pid < 0)
 		return (-1);
-	if (WIFEXITED(status))
-		g_status = WEXITSTATUS(status);
+	if (ft_wifexited(status))
+		g_status = ft_wexitstatus(status);
 	else
 	{
 		if (status == SIGINT)
 			ft_putstr_fd("\n", 2);
 		else if (status == SIGQUIT)
-			ft_putstr_fd("Quit\n", 2);
-		g_status = WTERMSIG(status) + 128;
+			ft_putstr_fd("Quit: 3\n", 2);
+		g_status = status + 128;
 	}
 	return (pid);
 }

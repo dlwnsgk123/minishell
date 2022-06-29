@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 01:39:34 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/24 05:47:42 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/26 18:24:55 by seungiki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,34 +41,6 @@ int	take_input(char **input)
 		return (1);
 }
 
-void	free_content(void **content)
-{
-	int		i;
-	t_list	*tmp;
-	t_rdi	*rdi;
-	t_cmd	*cmd;
-	t_list	*rdi_lst;
-
-	cmd = *content;
-	rdi_lst = cmd->redirect;
-	if (cmd == NULL)
-		return ;
-	i = -1;
-	while ((cmd)->argv[++i])
-		free((cmd)->argv[i]);
-	free((cmd)->argv);
-	while (rdi_lst)
-	{
-		tmp = rdi_lst->next;
-		rdi = rdi_lst->content;
-		free(rdi->target);
-		free(rdi);
-		ft_lstdelone(rdi_lst);
-		rdi_lst = tmp;
-	}
-	free(cmd);
-}
-
 void	cmd_clear(t_list **cmd)
 {
 	t_list	*tmp;
@@ -92,6 +64,30 @@ void	sigint_newline(int signum)
 	g_status = 1;
 }
 
+static void	main_loop(t_list **cmds, t_env **env, char *input)
+{
+	while (1)
+	{
+		echoctl_off();
+		signal(SIGINT, sigint_newline);
+		signal(SIGQUIT, SIG_IGN);
+		if (take_input(&input))
+			continue ;
+		if (check_input(input) != 0)
+			continue ;
+		parse(input, cmds, *env);
+		echoctl_on();
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+		if ((*cmds)->next == NULL)
+			execute((*cmds), env);
+		else
+			pipe_execute((*cmds), env);
+		unlink(".heredoc");
+		cmd_clear(cmds);
+	}
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*input;
@@ -104,25 +100,6 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	(void)argc;
 	env_setting(&env, envp);
-	while (1)
-	{
-		echoctl_off();
-		signal(SIGINT, sigint_newline);
-		signal(SIGQUIT, SIG_IGN);
-		if (take_input(&input))
-			continue ;
-		if (check_input(input) != 0)
-			continue ;
-		parse(input, &cmds, env);
-		echoctl_on();
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-		if (cmds->next == NULL)
-			execute(cmds, &env);
-		else
-			pipe_execute(cmds, &env);
-		unlink(".heredoc");
-		cmd_clear(&cmds);
-	}
+	main_loop(&cmds, &env, input);
 	return (0);
 }

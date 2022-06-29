@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhalee <junhalee@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 11:23:57 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 16:49:20 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/27 08:53:06 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	check_digit(char *str)
 	return (1);
 }
 
-int	ft_exit(char **argv, bool pipe)
+int	ft_exit(char **argv, int pipe)
 {
 	if (*(argv + 1) == NULL)
 	{
@@ -34,19 +34,22 @@ int	ft_exit(char **argv, bool pipe)
 			ft_putstr_fd("exit\n", 2);
 		exit(0);
 	}
-	if (check_digit(argv[1]) == 0)
+	else if (check_digit(argv[1]) == 0)
 	{
-		ft_putstr_fd("exit: ", 2);
+		ft_putstr_fd("exit\nexit: ", 2);
 		ft_putstr_fd(argv[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		exit(1);
+		exit(255);
 	}
-	if (get_argc(argv) > 2)
+	else if (get_argc(argv) > 2)
 	{
 		ft_putstr_fd("exit\nexit: too many arguments\n", 2);
-		exit(1);
+		return (1);
 	}
-	if (!pipe)
-		ft_putstr_fd("exit\n", 2);
-	exit(ft_atoi(argv[1]));
+	else
+	{
+		if (!pipe)
+			ft_putstr_fd("exit\n", 2);
+		exit(ft_atoi(argv[1]));
+	}
 }

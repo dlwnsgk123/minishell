@@ -6,7 +6,7 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 07:47:17 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/25 08:10:42 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/27 11:52:29 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	pipe_wait(int last_pid)
 	if (status == SIGINT || last_status == SIGINT)
 		ft_putstr_fd("\n", 2);
 	else if (status == SIGQUIT || last_status == SIGINT)
-		ft_putstr_fd("Quit\n", 2);
-	if (WIFEXITED(last_status))
-		g_status = WEXITSTATUS(last_status);
+		ft_putstr_fd("Quit : 3\n", 2);
+	if (ft_wifexited(last_status))
+		g_status = ft_wexitstatus(last_status);
 	else
-		g_status = WTERMSIG(last_status) + 128;
+		g_status = last_status + 128;
 }
 
 void	child_execute(t_list *tmp, t_env **env, int fd[2], int fd_in)
@@ -42,11 +42,11 @@ void	child_execute(t_list *tmp, t_env **env, int fd[2], int fd_in)
 
 	cmd = tmp->content;
 	if (dup2(fd_in, STDIN_FILENO) < 0)
-		exit_error("dup2 error line 177: ");
+		exit_error("dup2 error: ");
 	if (tmp->next != NULL)
 	{
 		if (dup2(fd[1], STDOUT_FILENO) < 0)
-			exit_error("dup2 error  line 180: ");
+			exit_error("dup2 error: ");
 	}
 	close(fd[0]);
 	if (is_builtin(cmd->argv[0]))
@@ -59,7 +59,7 @@ void	parent_process(int fd[], int fd_in)
 {
 	close(fd[1]);
 	if (dup2(fd[0], fd_in) < 0)
-		exit_error("dup error :");
+		exit_error("dup2 error :");
 	close(fd[0]);
 }
 

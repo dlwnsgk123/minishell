@@ -6,13 +6,13 @@
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 04:26:20 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/25 12:16:22 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/27 08:52:28 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	exec_builtin(t_cmd	*cmd, t_env **env, bool pipe)
+int	exec_builtin(t_cmd	*cmd, t_env **env, int pipe)
 {
 	int	builtin;
 
@@ -36,13 +36,13 @@ int	exec_builtin(t_cmd	*cmd, t_env **env, bool pipe)
 
 void	reset_iofd(int fd[2])
 {
-	if (dup2(fd[1], STDOUT_FILENO))
+	if (dup2(fd[1], STDOUT_FILENO) < 0)
 		exit_error("STDOUT reset error :");
-	if (dup2(fd[0], STDIN_FILENO))
+	if (dup2(fd[0], STDIN_FILENO) < 0)
 		exit_error("STDIN reset error :");
 }
 
-void	process_builtin(t_cmd *cmd, t_env **env, bool pipe)
+void	process_builtin(t_cmd *cmd, t_env **env, int pipe)
 {
 	int		fd[2];
 
@@ -97,7 +97,7 @@ void	execute(t_list *cmds, t_env **env)
 	tmp = cmds;
 	cmd = tmp->content;
 	if (cmd->argv != NULL && is_builtin(cmd->argv[0]))
-		process_builtin(cmd, env, false);
+		process_builtin(cmd, env, 0);
 	else
 	{
 		pid = fork();

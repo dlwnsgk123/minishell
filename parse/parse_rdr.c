@@ -1,16 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_redirection.c                                :+:      :+:    :+:   */
+/*   parse_rdr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junhalee <junhalee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 10:41:29 by junhalee          #+#    #+#             */
-/*   Updated: 2022/01/23 13:43:11 by junhalee         ###   ########.fr       */
+/*   Updated: 2022/01/27 11:40:37 by junhalee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	make_cmd_loop(t_cmd **cmd, char **tmp, char **content, char *quote)
+{
+	if (*(*content) == '\'' || *(*content) == '\"')
+	{
+		*quote = *(*content);
+		*(*tmp)++ = *(*content)++;
+		while (*(*content) != *quote)
+		{
+			if (*(*content) == ' ')
+			{
+				*(*tmp)++ = -10;
+				(*content)++;
+			}
+			else
+				*(*tmp)++ = *(*content)++;
+		}
+		*(*tmp)++ = *(*content)++;
+	}
+	else if (*(*content) == '>' || *(*content) == '<')
+	{
+		ft_lstadd_back(&((*cmd)->redirect), ft_lstnew(make_rdi(*content)));
+		*content = skip_target(*content);
+	}
+	else
+		*(*tmp)++ = *(*content)++;
+}
 
 t_cmd	*make_cmd(char *content)
 {
@@ -28,31 +55,7 @@ t_cmd	*make_cmd(char *content)
 	tmp_start = tmp;
 	cmd->redirect = NULL;
 	while (*content != '\0')
-	{
-		if (*content == '\'' || *content == '\"')
-		{
-			quote = *content;
-			*tmp++ = *content++;
-			while (*content != quote)
-			{
-				if (*content == ' ')
-				{
-					*tmp++ = -10;
-					content++;
-				}
-				else
-					*tmp++ = *content++;
-			}
-			*tmp++ = *content++;
-		}
-		else if (*content == '>' || *content == '<')
-		{
-			ft_lstadd_back(&(cmd->redirect), ft_lstnew(make_rdi(content)));
-			content = skip_target(content);
-		}
-		else
-			*tmp++ = *content++;
-	}
+		make_cmd_loop(&cmd, &tmp, &content, &quote);
 	*tmp = '\0';
 	cmd->tmp = tmp_start;
 	return (cmd);
@@ -67,8 +70,6 @@ void	parse_redirection(t_list **cmds)
 	while (lst)
 	{
 		tmp = ft_strdup((char *)(lst->content));
-		if (tmp == NULL)
-			exit_error("malloc error :");
 		free(lst->content);
 		lst->content = make_cmd(tmp);
 		free(tmp);
